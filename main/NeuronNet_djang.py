@@ -29,10 +29,10 @@ import copy
    веса из диапозона, который определяется двумя константами ниже 
    ( random.uniform( WEIGHT_DEF_BEG, WEIGHT_DEF_END ))   
 """ 
-WEIGHT_DEF_BEG = -0.5 
-WEIGHT_DEF_END = 0.5
+WEIGHT_DEF_BEG =  -0.05 
+WEIGHT_DEF_END =  0.05
 
-COUNT_EPOCH    = 10
+COUNT_EPOCH    =  100
 """Количество эпох для обучения"""
 
 
@@ -508,34 +508,35 @@ class NeuronNet:
                 masD[ i ][ j ] = float( masD[ i ][ j ] )
                 j += 1
             i += 1 
-        
+
         #запускаем обучение
         i = 0
         while i < COUNT_EPOCH: #пока не проишло COUNT_EPOCH эпох
           lenMas = len( masIn )
           j = 0
+          sumD = 0
           while  j < lenMas:
+              sumD += masD[ j ][ 0 ]
               yAll = self.calc( masIn[ j ], True )
               self.__changeCoeff( yAll, masD[ j ], masIn[ j ] )
               j += 1
           i += 1
           
+        print 'avg = ' + str( sumD / lenMas )
+                 
     def show( self ):
         """
           Выводит нейронную сеть
         """
         n_lay = 0       
         for lay in self.__layer:
-            print 'Слой ' + str(n_lay) + '. Нейроны(' + str( len(lay) ) + '):'
+            print 'Lay N ' + str(n_lay) + '(count of neurons: ' + str( len(lay) ) + '). Neurons:'
             n_lay += 1
             n_neuron = 0
             for SomeNeuron in lay:
-                print '  Нейрон ' + str(n_neuron) + '. Дендриты(' + str( len( SomeNeuron.getWeight() ) ) + '), веса:'
+                print '  Neuron N ' + str(n_neuron) + '(count of dendrits: ' + str( len( SomeNeuron.getWeight() ) ) + '). Dendrits:'
                 n_neuron += 1
                 n_weight = 0
                 for w in SomeNeuron.getWeight():
-                    print '     Вес для дендрита ' + str(n_weight) + ' = ' + str(w)
+                    print '     Dendrit N ' + str(n_weight) + ', weight = ' + str(w)
                     n_weight += 1
-
-
-

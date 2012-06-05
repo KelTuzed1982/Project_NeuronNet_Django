@@ -31,8 +31,8 @@ for nTest in range( cntTests ):
     s = str( x_deg )
     """Строка с обучающей выборкой"""
     
-    s += chr(9) + str( math.sin( x )  )
+    s += chr(9) + str( round( math.sin( x ), 2 ) )
     File.write( s + '\n' )
     
 File.close()
-print 'Сделано!'
+print 'Done!'
